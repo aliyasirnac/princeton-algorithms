@@ -44,3 +44,4 @@ build/
 
 # macOS
 .DS_Store
+.lift/
