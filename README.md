@@ -16,4 +16,9 @@ The code is written in Java and uses the `algs4.jar` library provided by the ins
 4. Click the `+` icon → choose **Java**.
 5. Select the `algs4.jar` file located in the `libs/` folder.
 
+### Compiling the jar file
+```bash
+mvn install:install-file -Dfile=libs/algs4.jar -DgroupId=edu.princeton.cs -DartifactId=algs4 -Dversion=1.0.0 -Dpackaging=jar
+```
+
 This will link the library with your project so you can compile and run the code smoothly.

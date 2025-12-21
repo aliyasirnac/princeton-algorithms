@@ -2,7 +2,9 @@ package com.aliyasirnac.algorithms.assignments.collinear;
 
 public class BruteCollinearPoints {
     public BruteCollinearPoints(Point[] points) {
-
+        if (points == null) {
+            throw new IllegalArgumentException();
+        }
     }   // finds all line segments containing 4 points
 
     public int numberOfSegments() {

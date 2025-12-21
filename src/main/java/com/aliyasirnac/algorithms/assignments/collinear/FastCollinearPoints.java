@@ -2,7 +2,9 @@ package com.aliyasirnac.algorithms.assignments.collinear;
 
 public class FastCollinearPoints {
     public FastCollinearPoints(Point[] points) {
-
+        if (points == null) {
+            throw new IllegalArgumentException();
+        }
     } // finds all line segments containing 4 or more points
 
     public int numberOfSegments() {
