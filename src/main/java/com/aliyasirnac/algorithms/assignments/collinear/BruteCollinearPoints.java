@@ -5,6 +5,16 @@ public class BruteCollinearPoints {
         if (points == null) {
             throw new IllegalArgumentException();
         }
+
+        for (Point p : points) {
+            for (Point q : points) {
+                for (Point r : points) {
+                    for (Point s : points) {
+                        // code here
+                    }
+                }
+            }
+        }
     }   // finds all line segments containing 4 points
 
     public int numberOfSegments() {
@@ -13,6 +23,6 @@ public class BruteCollinearPoints {
 
     public LineSegment[] segments() {
         return null;
-    }            // the line segments
+    }
 
 }
