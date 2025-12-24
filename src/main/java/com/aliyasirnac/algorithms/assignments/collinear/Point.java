@@ -59,7 +59,7 @@ public class Point implements Comparable<Point> {
         } else if (that.y == y) {
             return 0.0;
         } else if (that.x == x) {
-        return Double.POSITIVE_INFINITY;
+            return Double.POSITIVE_INFINITY;
         }
         return (double) (that.y - y) / (that.x - x);
     }
@@ -77,9 +77,9 @@ public class Point implements Comparable<Point> {
      * argument point
      */
     public int compareTo(Point that) {
-        if (y<that.y)
+        if (y < that.y)
             return -1;
-        if (y>that.y)
+        if (y > that.y)
             return 1;
         return Integer.compare(x, that.x);
     }
@@ -131,7 +131,7 @@ public class Point implements Comparable<Point> {
         StdDraw.show();
 
         // print and draw the line segments
-        BruteCollinearPoints collinear = new BruteCollinearPoints(points);
+        FastCollinearPoints collinear = new FastCollinearPoints(points);
         for (LineSegment segment : collinear.segments()) {
             StdOut.println(segment);
             segment.draw();
