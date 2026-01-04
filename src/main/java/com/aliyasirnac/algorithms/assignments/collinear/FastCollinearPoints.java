@@ -10,38 +10,43 @@ public class FastCollinearPoints {
         if (points == null) {
             throw new IllegalArgumentException();
         }
+        Point[] points1 = points.clone();
+        Arrays.sort(points1);
+        for (int i = 0; i < points1.length - 1; i++) {
+            if (points1[i].compareTo(points1[i + 1]) == 0) {
+                throw new IllegalArgumentException();
+            }
+        }
         ArrayList<LineSegment> segments = new ArrayList<>();
-        int n = points.length;
-        for (Point p : points) {
-            Point[] copyPoints = points.clone();
-            Arrays.sort(copyPoints, p.slopeOrder());
+        int n = points1.length;
+        for (int p = 0; p < n; p++) {
+            Point origin = points1[p];
+            Point[] copyPoints = points1.clone();
+            Arrays.sort(copyPoints, origin.slopeOrder());
 
-            int j = 1, count = 0;
-            while (j < n) {
-                double currentSlope = p.slopeTo(copyPoints[j]);
-                Point maxPoint = copyPoints[j];
-                boolean pIsSmall = true;
-                if (p.compareTo(copyPoints[j]) > 0)
-                    pIsSmall = false;
-                j++;
+            int i = 1;
+            while (i < n) {
+                double currentSlope = origin.slopeTo(copyPoints[i]);
+                int j = i + 1;
 
-                while (j < n && Double.compare(p.slopeTo(copyPoints[j]), currentSlope) == 0) {
-                    Point q = copyPoints[j];
-                    count++;
-                    if (q.compareTo(maxPoint) > 0) {
-                        maxPoint = q;
-                    }
-                    if (p.compareTo(q) > 0)
-                        pIsSmall = false;
+                while (j < n && origin.slopeTo(copyPoints[j]) == currentSlope)
                     j++;
-                }
 
-                if (count >= 3) {
-                    if (pIsSmall) {
-                        segments.add(new LineSegment(p, maxPoint));
+                if (j - i >= 3) {
+                    Point maxPoint = origin;
+                    Point minPoint = origin;
+
+                    for (int k = i; k < j; k++) {
+                        if (copyPoints[k].compareTo(minPoint) < 0) minPoint = copyPoints[k];
+                        if (copyPoints[k].compareTo(maxPoint) > 0) maxPoint = copyPoints[k];
+                    }
+
+                    if (origin == minPoint) {
+                        segments.add(new LineSegment(minPoint, maxPoint));
                     }
                 }
 
+                i = j;
             }
         }
         lineSegments = segments.toArray(new LineSegment[0]);
