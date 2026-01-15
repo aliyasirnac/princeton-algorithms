@@ -3,6 +3,7 @@ package com.aliyasirnac.algorithms.assignments.puzzle8;
 import edu.princeton.cs.algs4.StdOut;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 import static java.lang.System.*;
 
@@ -62,7 +63,7 @@ public class Board {
 
     // does this board equal y?
     public boolean equals(Object y) {
-        return false;
+        return Objects.equals(toString(), y.toString());
     }
 
     // all neighboring boards
@@ -90,5 +91,10 @@ public class Board {
         Board board = new Board(ints);
         StdOut.println("Dimension: " + board.dimension());
         StdOut.println("Board:\n" + board);
+        StdOut.println(board.equals(new Board(new int[][]{
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 0} // 0 represents the blank
+        })));
     }
 }
