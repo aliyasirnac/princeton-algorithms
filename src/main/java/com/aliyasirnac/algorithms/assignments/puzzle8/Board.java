@@ -34,7 +34,7 @@ public class Board {
         goalMap = new HashMap<>();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                goalMap.put(goal[i][j], new int[]{i, j});
+                goalMap.put(goal[i][j], new int[]{i, j}); // goal value -> (row, col) point
             }
         }
     }
