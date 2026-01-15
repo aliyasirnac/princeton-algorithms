@@ -97,8 +97,9 @@ public class Board {
     }
 
     // is this board the goal board?
+    // probably we will loop until isGoal == true
     public boolean isGoal() {
-        return false;
+        return board == goal;
     }
 
     // does this board equal y?
