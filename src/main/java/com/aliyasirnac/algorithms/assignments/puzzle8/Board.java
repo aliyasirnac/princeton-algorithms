@@ -2,13 +2,17 @@ package com.aliyasirnac.algorithms.assignments.puzzle8;
 
 import edu.princeton.cs.algs4.StdOut;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
 
 import static java.lang.System.*;
 
 public class Board {
     private final int[][] board;
+    private final int[][] goal;
+    private final Map<Integer, int[]> goalMap;
     private final int n;
 
     // create a board from an n-by-n array of tiles,
@@ -19,8 +23,19 @@ public class Board {
         }
         n = tiles.length;
         board = new int[n][n];
-        for (int col = 0; col < tiles.length; col++) {
-            arraycopy(tiles[col], 0, board[col], 0, tiles.length);
+        for (int row = 0; row < tiles.length; row++) {
+            arraycopy(tiles[row], 0, board[row], 0, tiles.length);
+        }
+        goal = new int[][]{
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 0}
+        };
+        goalMap = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                goalMap.put(goal[i][j], new int[]{i, j});
+            }
         }
     }
 
@@ -48,12 +63,37 @@ public class Board {
 
     // number of tiles out of place
     public int hamming() {
-        return 0;
+        int distance = 0;
+        for (int i = 0; i < n; i++) {
+            int j = 0;
+            while (j < n) {
+                int currentItem = board[i][j];
+                if (currentItem != 0 && currentItem != goal[i][j]) {
+                    distance++;
+                }
+                j++;
+            }
+        }
+        return distance;
     }
 
     // sum of Manhattan distances between tiles and goal
     public int manhattan() {
-        return 0;
+        int distance = 0;
+        for (int i = 0; i < n; i++) {
+            int j = 0;
+            while (j < n) {
+                int currentItem = board[i][j];
+                if (currentItem != 0) {
+                    int[] goals = goalMap.get(currentItem);
+                    int indexI = goals[0];
+                    int indexJ = goals[1];
+                    distance += Math.abs(i - indexI) + Math.abs(j - indexJ);
+                }
+                j++;
+            }
+        }
+        return distance;
     }
 
     // is this board the goal board?
@@ -84,9 +124,9 @@ public class Board {
     // unit testing (not graded)
     public static void main(String[] args) {
         int[][] ints = new int[][]{
-                {1, 2, 3},
-                {4, 5, 6},
-                {7, 8, 0} // 0 represents the blank
+                {8, 1, 3},
+                {4, 0, 2},
+                {7, 6, 5} // 0 represents the blank
         };
         Board board = new Board(ints);
         StdOut.println("Dimension: " + board.dimension());
@@ -96,5 +136,7 @@ public class Board {
                 {4, 5, 6},
                 {7, 8, 0} // 0 represents the blank
         })));
+        StdOut.println("hamming: " + board.hamming());
+        StdOut.println("Manhattan: " + board.manhattan());
     }
 }
