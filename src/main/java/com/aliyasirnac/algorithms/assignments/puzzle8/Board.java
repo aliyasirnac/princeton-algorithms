@@ -70,14 +70,14 @@ public class Board {
         return new Iterable<Board>() {
             @Override
             public Iterator<Board> iterator() {
-                return null;
+                throw new UnsupportedOperationException();
             }
         };
     }
 
     // a board that is obtained by exchanging any pair of tiles
     public Board twin() {
-        return new Board(board);
+        throw new UnsupportedOperationException();
     }
 
     // unit testing (not graded)
