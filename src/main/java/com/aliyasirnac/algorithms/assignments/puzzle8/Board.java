@@ -2,10 +2,7 @@ package com.aliyasirnac.algorithms.assignments.puzzle8;
 
 import edu.princeton.cs.algs4.StdOut;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static java.lang.System.*;
 
@@ -104,22 +101,83 @@ public class Board {
 
     // does this board equal y?
     public boolean equals(Object y) {
-        return Objects.equals(toString(), y.toString());
+        if (y == this) return true;
+
+        if (y == null || y.getClass() != this.getClass()) return false;
+
+        Board that = (Board) y;
+
+        if (this.n != that.n) return false;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (this.board[i][j] != that.board[i][j]) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     // all neighboring boards
     public Iterable<Board> neighbors() {
-        return new Iterable<Board>() {
-            @Override
-            public Iterator<Board> iterator() {
-                throw new UnsupportedOperationException();
+        List<Board> neighbors = new ArrayList<>();
+        int row = 0, col = 0;
+
+        // 1. Find the blank tile (0)
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] == 0) {
+                    row = i; col = j;
+                }
             }
-        };
+        }
+
+        // 2. Try all 4 directions (check bounds first)
+        int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        for (int[] dir : directions) {
+            int newR = row + dir[0];
+            int newC = col + dir[1];
+
+            if (newR >= 0 && newR < n && newC >= 0 && newC < n) {
+                int[][] copy = copyBoard(board);
+                exch(copy, row, col, newR, newC);
+                neighbors.add(new Board(copy));
+            }
+        }
+        return neighbors;
     }
 
     // a board that is obtained by exchanging any pair of tiles
     public Board twin() {
-        throw new UnsupportedOperationException();
+        int[][] copy = copyBoard(this.board);
+
+        // Swap the first two tiles that are not zero
+        // Usually, checking (0,0) and (0,1) works,
+        // but if one is 0, use the second row.
+        if (copy[0][0] != 0 && copy[0][1] != 0) {
+            exch(copy, 0, 0, 0, 1);
+        } else {
+            exch(copy, 1, 0, 1, 1);
+        }
+
+        return new Board(copy);
+    }
+
+    // Swaps two specific coordinates in a 2D array
+    private void exch(int[][] a, int r1, int c1, int r2, int c2) {
+        int temp = a[r1][c1];
+        a[r1][c1] = a[r2][c2];
+        a[r2][c2] = temp;
+    }
+
+    // Deep copy of the board
+    private int[][] copyBoard(int[][] original) {
+        int[][] copy = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            copy[i] = original[i].clone();
+        }
+        return copy;
     }
 
     // unit testing (not graded)
@@ -139,5 +197,9 @@ public class Board {
         })));
         StdOut.println("hamming: " + board.hamming());
         StdOut.println("Manhattan: " + board.manhattan());
+        StdOut.println(board.twin());
+        for (Board b : board.neighbors()) {
+            StdOut.println(b);
+        }
     }
 }
