@@ -11,14 +11,7 @@ The code is written in Java and uses the `algs4.jar` library provided by the ins
 ### ✅ Using IntelliJ IDEA
 
 1. Open the project in **IntelliJ IDEA**.
-2. Press `Ctrl + Shift + Alt + S` (or go to `File > Project Structure`).
-3. Navigate to the **Libraries** section.
-4. Click the `+` icon → choose **Java**.
-5. Select the `algs4.jar` file located in the `libs/` folder.
+2. IDEA will automatically detect the `pom.xml` file.
+3. Click "Load Maven Project" if prompted. The `algs4.jar` in the `libs/` folder is automatically linked via Maven.
 
-### Compiling the jar file
-```bash
-mvn install:install-file -Dfile=libs/algs4.jar -DgroupId=edu.princeton.cs -DartifactId=algs4 -Dversion=1.0.0 -Dpackaging=jar
-```
-
-This will link the library with your project so you can compile and run the code smoothly.
+*(No manual terminal commands are needed because the JAR is mapped directly in `pom.xml`)*
